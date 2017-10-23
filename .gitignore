@@ -1,0 +1,6 @@
+backend/.idea/
+backend/.vscode/
+backend/.node_modules/
+backend/compiled/
+backend/yarn.lock
+
