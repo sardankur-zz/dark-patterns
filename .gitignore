@@ -3,4 +3,8 @@ backend/.vscode/
 backend/.node_modules/
 backend/compiled/
 backend/yarn.lock
-
+backend/LICENSE
+backend/README.md
+backend/back/
+backend/docker/
+backend/node_modules/
