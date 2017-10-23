@@ -4,7 +4,6 @@ import { connect } from './db'
 import initExpress from './init/express'
 import initRoutes from './init/routes'
 import initPassport from './init/passport'
-import swaggerUI from 'swagger-ui-express'
 import MustBe from 'mustbe'
 
 const app = express()
