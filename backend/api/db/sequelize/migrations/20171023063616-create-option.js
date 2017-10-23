@@ -14,6 +14,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      type: {
+        type: Sequelize.STRING
+      },
       questionId: {
         references: {
           model: 'Questions',

@@ -1,7 +1,7 @@
 'use strict'
 
 export default (sequelize, DataTypes) => {
-  const Option = sequelize.define('Options', {
+  const Option = sequelize.define('Option', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
