@@ -12,17 +12,39 @@ const Questionnaire = Models.Questionnaire
 export function submit(req, res) {
   const { uid, qid, ansId, dp} = req.body
 
-  return Response.create({
-    questionId: qid,
-    optionId: ansId,
-    userId: uid
+
+  return Response.findOne({
+    where: {
+      questionId: qid,
+      userId: uid
+    }
   })
-  .then(() => {
-    return res.status(201).json({message: `Response recorded`})
+  .then(response => {
+    if (response) {
+      return response.update({
+        questionId: qid,
+        optionId: ansId,
+        userId: uid
+      })
+      .then(() => {
+        return res.status(201).json({message: `Response updated`})
+      })
+    } else {
+      return Response.create({
+        questionId: qid,
+        optionId: ansId,
+        userId: uid
+      })
+      .then(() => {
+        return res.status(201).json({message: `Response recorded`})
+      })
+    }
   })
   .catch((err) => {
     return res.status(500).json({message: `Something went wrong ${err.message}`})
   })
+
+
 }
 
 export function getQuestionnaireQuestions(req, res) {
