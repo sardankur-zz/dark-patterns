@@ -63,7 +63,9 @@ export function getQuestionnaireQuestions(req, res) {
 }
 
 export function getResponses(req, res) {
-  const { questionId, userId } = req.params
+  const { questionId, userId } = req.query
+  
+
   let query = {}
   if (questionId) {
     query['questionId'] = questionId
