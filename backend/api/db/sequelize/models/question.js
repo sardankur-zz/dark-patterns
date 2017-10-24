@@ -11,13 +11,13 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    // correctOption: {
-    //   type: DataTypes.INTEGER,
-    //   references: 'Options',
-    //   referencesKey: 'id',
-    //   onUpdate: 'CASCADE',
-    //   onDelete: 'CASCADE'
-    // },
+    correctOption: {
+      type: DataTypes.INTEGER,
+      references: 'Options',
+      referencesKey: 'id',
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    },
     questionnaireId: {
       type: DataTypes.INTEGER,
       references: 'Questionnaire',
@@ -44,19 +44,18 @@ export default (sequelize, DataTypes) => {
 
         Question.hasOne(models.Option, {
           foreignKey: 'questionId',
-          as: 'correctOption',
+          as: 'correct',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
           constraints: false
         })
 
-        // Question.belongsTo(models.Questionnaire, {
-        //   foreignKey: 'questionId',
-        //   as: 'correctOption',
-        //   onUpdate: 'CASCADE',
-        //   onDelete: 'CASCADE',
-        //   constraints: false
-        // })
+        Question.belongsTo(models.Questionnaire, {
+          as: 'questionnaire',
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          constraints: false
+        })
       }
     },
     instanceMethods: {}

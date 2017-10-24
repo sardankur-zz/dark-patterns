@@ -34,13 +34,13 @@ export default (sequelize, DataTypes) => {
         })
 
 
-        // Option.belongsTo(models.Question, {
-        //   foreignKey: 'id',
-        //   as: 'correctOption',
-        //   onUpdate: 'CASCADE',
-        //   onDelete: 'CASCADE',
-        //   constraints: false
-        // })
+        Option.belongsTo(models.Question, {
+          foreignKey: 'id',
+          as: 'correct',
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          constraints: false
+        })
       }
     },
     instanceMethods: {}
