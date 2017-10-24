@@ -62,7 +62,27 @@ export function getQuestionnaireQuestions(req, res) {
 
 }
 
+export function getResponses(req, res) {
+  const { questionId, userId } = req.params
+  let query = {}
+  if (questionId) {
+    query['questionId'] = questionId
+  } 
 
+  if (userId) {
+    query['userId'] = userId
+  }
+
+  return Response.findAll({
+    where: query
+  })
+  .then(responses => {
+    return res.status(200).json({data: responses})
+  })
+  .catch(err => {
+    return res.status(500).json({err: `Something went wrong ${err.message}`})
+  })
+}
 
 
 export default {

@@ -22,7 +22,7 @@ export default (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     },
     userId: {
-      type: DataTypes.STRING, // Radio / text etc.
+      type: DataTypes.STRING,
       default: 'radio',
       allowNull: false
     }

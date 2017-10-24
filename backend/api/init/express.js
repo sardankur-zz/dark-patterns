@@ -9,8 +9,6 @@ import cors from 'cors'
 import helmet from 'helmet'
 import { ENV, PORT } from '../../config/env'
 import logger from './../../utils/logger'
-import MustBe from 'mustbe'
-import mustbeConfig from '../../config/mustbe_config'
 
 /*eslint no-process-env: "error"*/
 
@@ -28,7 +26,6 @@ export default (app) => {
   }))
   app.use(express.static(path.join(process.cwd(), 'public')))
   
-  MustBe.configure(mustbeConfig)
 
   logger.info('--------------------------')
   logger.info('===> 😊  Starting Server . . .')
