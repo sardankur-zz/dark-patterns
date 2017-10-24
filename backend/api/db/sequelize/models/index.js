@@ -5,6 +5,7 @@ import { ENV } from '../../../../config/env'
 import questionnaireModel from './questionnaire'
 import questionModel from './question'
 import optionModel from './option'
+import responseModel from './response'
 
 const config = sequelizeConfig[ENV]
 
@@ -16,6 +17,7 @@ const sequelize = dbUrl ? new Sequelize(dbUrl) : new Sequelize(config.database, 
 db.Question = sequelize.import('Question', questionModel)
 db.Questionnaire = sequelize.import('Questionnaire', questionnaireModel)
 db.Option = sequelize.import('Option', optionModel)
+db.Response = sequelize.import('Response', responseModel)
 
 Object.keys(db).forEach((key) => {
   const model = db[key]

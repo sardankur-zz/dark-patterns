@@ -3,12 +3,26 @@
 import Promise from 'bluebird'
 import { Models } from '../models'
 
+const Response = Models.Response
+
 const Questionnaire = Models.Questionnaire
 // const Question = Models.Question
 // const Option = Models.Option
 
 export function submit(req, res) {
-  return res.status(201).json({message: `Questionnaire recorded`})
+  const { uid, qid, ansId, dp} = req.body
+
+  return Response.create({
+    questionId: qid,
+    optionId: ansId,
+    userId: uid
+  })
+  .then(() => {
+    return res.status(201).json({message: `Response recorded`})
+  })
+  .catch((err) => {
+    return res.status(500).json({message: `Something went wrong ${err.message}`})
+  })
 }
 
 export function getQuestionnaireQuestions(req, res) {
