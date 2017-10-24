@@ -10,6 +10,8 @@ const router = Router()
 export default (app) => {
   router.post('/questionnaire/submit', questionnaireController.submit)
 
+  router.get(`/responses`, questionnaireController.getResponses)
+
   router.get(`/questionnaire/:questionnaireId/all`, questionnaireController.getQuestionnaireQuestions)
 
   app.use('/api/v1', router)

@@ -87,5 +87,6 @@ export function getResponses(req, res) {
 
 export default {
   submit,
-  getQuestionnaireQuestions
+  getQuestionnaireQuestions,
+  getResponses
 }
