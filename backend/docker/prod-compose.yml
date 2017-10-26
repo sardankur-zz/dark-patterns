@@ -15,7 +15,7 @@ services:
   userstudy_app:
     image: rest-api
     ports:
-      - "80:3001"
+      - "3001:3001"
     links:
       - userstudy_db
     environment:
