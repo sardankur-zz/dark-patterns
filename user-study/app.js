@@ -27,7 +27,7 @@ qq[0] = `<div class="row marketing">
                   </div>
               </div>
           </div>
-        </div><hr />`
+        </div>`
 
 qq[1] = `<div class="row marketing">
                 <div class="col-lg-12">
@@ -58,7 +58,7 @@ qq[1] = `<div class="row marketing">
 		      </div>
                     </div>
                 </div>
-              </div><hr />`
+              </div>`
 
 function contructQuestion(id, type, uiType, data) {
 	if(data.answers[0].type == "radio") {
@@ -131,8 +131,8 @@ function guid() {
     s4() + '-' + s4() + s4() + s4();
 }
 
-//userid = guid();
-userid = "test"
+userid = guid();
+// userid = "test"
 
 jQuery.ajax({
                 url: qURL,
@@ -144,6 +144,9 @@ jQuery.ajax({
                         	// uiType = Math.floor(Math.random() * 2);
                         	uiType = 0;
                         	str = contructQuestion(i + 1, type, uiType, data[i]);
+				if (i < data.length - 1) {
+					str += "<hr />";
+				}
                         	document.getElementById("container").innerHTML = document.getElementById("container").innerHTML + str;
 			}
                 },
