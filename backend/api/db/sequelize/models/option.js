@@ -22,6 +22,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING, // Radio / text etc.
       default: 'radio',
       allowNull: false
+    },
+    dp: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     classMethods: {
