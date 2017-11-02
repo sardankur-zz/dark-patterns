@@ -25,7 +25,7 @@ export function submit(req, res) {
         questionId: qid,
         optionId: ansId,
         userId: uid,
-        dp: dp ? true : false
+        dp: dp == 1 ? true : false
       })
       .then(() => {
         return res.status(201).json({message: `Response updated`})
@@ -35,7 +35,7 @@ export function submit(req, res) {
         questionId: qid,
         optionId: ansId,
         userId: uid,
-        dp: dp ? true : false
+        dp: dp == 1 ? true : false
       })
       .then(() => {
         return res.status(201).json({message: `Response recorded`})
