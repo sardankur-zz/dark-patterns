@@ -24,6 +24,9 @@ export default (sequelize, DataTypes) => {
       referencesKey: 'id',
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
+    },
+    dp: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     classMethods: {
