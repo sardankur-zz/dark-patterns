@@ -25,6 +25,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       default: 'radio',
       allowNull: false
+    },
+    dp: {
+      type: DataTypes.BOOLEAN,
     }
   }, {
     classMethods: {
