@@ -32,7 +32,7 @@ export default (app) => {
   app.use(bodyParser.urlencoded({
     extended: true
   }))
-  app.use(express.static(path.join(process.cwd(), 'public')))
+  app.use(express.static(path.join(process.cwd(), 'ui')))
   
 
   logger.info('--------------------------')
