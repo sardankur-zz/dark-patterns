@@ -15,6 +15,14 @@ import logger from './../../utils/logger'
 export default (app) => {
   app.set('port', (PORT || 3001))
   app.use(cors())
+
+  app.use((req, res, next) => {
+    res.header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0")
+    res.header("Cache-Control: post-check=0, pre-check=0")
+    res.header("Pragma: no-cache")
+    next()
+  })
+
   if (ENV === 'production') {
     app.use(gzip())
     app.use(helmet())
