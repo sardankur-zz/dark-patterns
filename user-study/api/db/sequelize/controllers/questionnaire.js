@@ -64,7 +64,9 @@ export function getQuestionnaireQuestions(req, res) {
   })
   .then(questionnaire => {
     dpLevel = questionnaire["level"]
-    return questionnaire.getQuestions()
+    return questionnaire.getQuestions({
+      order: ['id']
+    })
   })
   .then(questions => {
     return Promise.map(questions, q => {
