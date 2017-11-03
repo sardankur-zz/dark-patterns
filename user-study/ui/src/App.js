@@ -25,12 +25,13 @@ class App extends Component {
             dataType:'json',
             cache: false,
             success: function(data){
-                this.setState({level: 2 /*data.level*/, isDp : Math.floor(Math.random() * 2) === 1 ? true : false, questionnaire: data.data}, function(){
-                    console.log(this.state);
+                this.setState({level: data.level, isDp : Math.floor(Math.random() * 2) === 1 ? true : false, questionnaire: data.data}, function(){
+                    console.log(this.state.isDp === true ? "Dark Patterns enabled" : "Dark Patterns disabled");
                 });
             }.bind(this),
             error: function(xhr, status, err){
                 console.log(err);
+                alert("Failed to get questions.")                
             }
         });
     }
@@ -40,7 +41,7 @@ class App extends Component {
         var data = { "uid":uuid, "qid":qid, "ansId":aid, "dp" :isDp }
         $.post(url, data)
             .done(success)
-            // .fail(failure)
+            .fail(failure)
     }
 
     componentWillMount() {
@@ -48,7 +49,7 @@ class App extends Component {
     }
 
     componentDidMount(){
-        this.getQuestions();
+        // this.getQuestions();
     }
 
 
@@ -59,19 +60,15 @@ class App extends Component {
             questionnaireUI = this.state.questionnaire.map((item, index) => {
                 let q,h,l;
 
-                h = <QuestionHeader index={index+1} question={item} key={item.question.id} />;
+                h = <QuestionHeader index={index+1} question={item} key={item.question.id} />;                
 
-                console.log(this.state.isDp);
-
-                if(this.state.isDp) {
-                    console.log("Test0")
+                if(!this.state.isDp || this.state.level === 0) {                    
                     if (item.question.type === 'button')
                         q = <ButtonQuestion0 isDp = {this.state.isDp} uuid={this.state.uuid} index={index+1} question={item} submitAnswer={this.submitAnswer.bind(this)} />;
                     else if (item.question.type === 'radio')
                         q = <RadioQuestion0 isDp = {this.state.isDp} uuid={this.state.uuid} index={index} question={item} submitAnswer={this.submitAnswer.bind(this)} />;
                 }
-                else {
-                    console.log("Test1")
+                else {                    
                     if (this.state.level === 1) {
                         if (item.question.type === 'button')
                             q = <ButtonQuestion1 isDp = {this.state.isDp} uuid={this.state.uuid} index={index+1} question={item} submitAnswer={this.submitAnswer.bind(this)} />;
@@ -94,8 +91,8 @@ class App extends Component {
         }
 
         return (
-            <div className="container">
-                <Header />
+            <div className="container">                
+                <Header />                
                 {questionnaireUI}
                 <Footer />
             </div>
@@ -152,10 +149,20 @@ class QuestionHeader extends Component {
         return (
             <div className="row">
                 <div className="col-lg-12">
-                    <h6><strong>Q{this.props.index}.</strong> <img style={{display:"none"}} src ={check} width = "30" height = "30"/></h6>
+                    <h6><strong>Q{this.props.index}.</strong> <img style={{display:"none"}} src ={check} width = "30" height = "30" alt=""/></h6>
                     <p>{this.props.question.question.title}</p>
                   </div>
             </div>
+        )
+    }
+}
+
+class QuestionCount extends Component {
+    render() {
+        return (            
+            <div className="progress">
+                <div className="progress-bar" role="progressbar" aria-valuenow="20" style={{width:"25%"}} aria-valuemin="0" aria-valuemax="100"></div>
+            </div>            
         )
     }
 }
@@ -234,8 +241,8 @@ class ButtonQuestion2 extends ButtonQuestion0 {
 
         let buttonUI;
         buttonUI = this.props.question.answers.map((answer, index) => {
-            let buttonClass = buttonClass = (answer.dp) ? 'btn-success btn-lg btn-block' : 'btn-link btn-sm btn-block';
-            let style = (answer.dp) ? {"padding-top":"1rem", "padding-top":"1rem"} : {}
+            let buttonClass = (answer.dp) ? 'btn-success btn-lg btn-block' : 'btn-link btn-sm btn-block';
+            let style = (answer.dp) ? {paddingTop:"1rem", paddingBottom:"1rem"} : {}
             let space = (index === this.props.question.answers.length - 1) ? <span className="float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span className="float-right"></span>
 
             return(
