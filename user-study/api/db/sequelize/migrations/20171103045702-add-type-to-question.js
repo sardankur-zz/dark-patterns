@@ -7,8 +7,7 @@ module.exports = {
       'Questions',
       'type',
       {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+        type: Sequelize.STRING
       }
       
     )
