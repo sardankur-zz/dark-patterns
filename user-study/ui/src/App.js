@@ -4,8 +4,9 @@ import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css'
 import check from './img/check.png'
+import ReactQueryParams from 'react-query-params';
 
-class App extends Component {
+class App extends ReactQueryParams {
 
     constructor() {
         super()
@@ -20,6 +21,11 @@ class App extends Component {
 
 
     getQuestions() {
+        
+        if(this.queryParams.questionnaire) {
+            this.state.questionnaireId = this.queryParams.questionnaire
+        }
+
         $.ajax({
             url: this.state.qurl.replace(":questionnaireId", this.state.questionnaireId),
             dataType:'json',
@@ -193,11 +199,18 @@ class ButtonQuestion0 extends Component {
         )
     }
 
+    getSpace(index, length) {
+        if(index == length - 1) {
+            return <span className="float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        }        
+        return undefined
+    }
+
     render() {
 
         let buttonUI;
         buttonUI = this.props.question.answers.map((answer, index) => {
-            let space = (index === this.props.question.answers.length - 1) ? <span className="float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span className="float-right"></span>
+            let space = this.getSpace(index, this.props.question.answers.length);
             return(
                 <span key = {"Q" + this.props.question.question.id + "A" + answer.id}>
                     {space}
@@ -218,8 +231,7 @@ class ButtonQuestion1 extends ButtonQuestion0 {
         let buttonUI;
         buttonUI = this.props.question.answers.map((answer, index) => {
             let buttonClass = (answer.dp) ? 'btn-link btn-sm btn-sm-pad' : 'btn-outline-primary btn-lg'
-            let space = (index === this.props.question.answers.length - 1) ? <span className="float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span className="float-right"></span>
-
+            let space = this.getSpace(index, this.props.question.answers.length);
             return(
                 <span key = {"Q" + this.props.question.question.id + "A" + answer.id}>
                     {space}
@@ -243,8 +255,7 @@ class ButtonQuestion2 extends ButtonQuestion0 {
         buttonUI = this.props.question.answers.map((answer, index) => {
             let buttonClass = (answer.dp) ? 'btn-success btn-lg btn-block' : 'btn-link btn-sm btn-block';
             let style = (answer.dp) ? {paddingTop:"1rem", paddingBottom:"1rem"} : {}
-            let space = (index === this.props.question.answers.length - 1) ? <span className="float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : <span className="float-right"></span>
-
+            let space = this.getSpace(index, this.props.question.answers.length);
             return(
                 <span key = {"Q" + this.props.question.question.id + "A" + answer.id}>
                     {space}
