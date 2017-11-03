@@ -18,11 +18,11 @@ export default (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     },
-    type: {
-      type: DataTypes.STRING, // Radio / text etc.
-      default: 'radio',
-      allowNull: false
-    },
+    // type: {
+    //   type: DataTypes.STRING, // Radio / text etc.
+    //   default: 'radio',
+    //   allowNull: false
+    // },
     dp: {
       type: DataTypes.BOOLEAN
     }

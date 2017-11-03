@@ -25,6 +25,10 @@ export default (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     },
+    type: {
+      type: DataTypes.STRING,
+      defaultValue: 'button'
+    },
     dp: {
       type: DataTypes.BOOLEAN
     }
