@@ -77,3 +77,18 @@ body {
     border-bottom: 0;
   }
 }
+
+.note-background {
+    background-color : #eceeef;
+    padding : 1rem;
+    font-size: 12pt;
+    letter-spacing: normal;
+}
+
+.btn-sm-pad {
+    padding-top:16px
+}
+
+.btn {
+    cursor: pointer
+}
