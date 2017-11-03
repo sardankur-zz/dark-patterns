@@ -4,11 +4,10 @@
 module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
-      'Questions',
-      'type',
+      'Questionnaires',
+      'level',
       {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+        type: Sequelize.INTEGER
       }
       
     )
@@ -16,8 +15,8 @@ module.exports = {
 
   down: function (queryInterface) {
     return queryInterface.removeColumn(
-      'Questions',
-      'type'
+      'Questionnaire',
+      'level'
     )
   }
 }
