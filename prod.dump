@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.7
--- Dumped by pg_dump version 9.5.7
+-- Dumped from database version 9.5.9
+-- Dumped by pg_dump version 9.5.9
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -114,7 +114,8 @@ CREATE TABLE "Questions" (
     title character varying(255) NOT NULL,
     "questionnaireId" integer NOT NULL,
     "createdAt" timestamp with time zone NOT NULL,
-    "updatedAt" timestamp with time zone NOT NULL
+    "updatedAt" timestamp with time zone NOT NULL,
+    "correctOption" integer
 );
 
 
@@ -139,6 +140,43 @@ ALTER TABLE "Questions_id_seq" OWNER TO postgres;
 --
 
 ALTER SEQUENCE "Questions_id_seq" OWNED BY "Questions".id;
+
+
+--
+-- Name: Responses; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Responses" (
+    id integer NOT NULL,
+    "questionId" integer NOT NULL,
+    "optionId" integer NOT NULL,
+    "userId" character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE "Responses" OWNER TO postgres;
+
+--
+-- Name: Responses_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Responses_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE "Responses_id_seq" OWNER TO postgres;
+
+--
+-- Name: Responses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Responses_id_seq" OWNED BY "Responses".id;
 
 
 --
@@ -174,12 +212,25 @@ ALTER TABLE ONLY "Questions" ALTER COLUMN id SET DEFAULT nextval('"Questions_id_
 
 
 --
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Responses" ALTER COLUMN id SET DEFAULT nextval('"Responses_id_seq"'::regclass);
+
+
+--
 -- Data for Name: Options; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY "Options" (id, title, type, "questionId", "createdAt", "updatedAt") FROM stdin;
 1	YES	radio	1	2017-10-23 07:05:23.212511+00	2017-10-23 07:05:23.212511+00
 2	NO	radio	1	2017-10-23 07:05:23.39698+00	2017-10-23 07:05:23.39698+00
+5	YES	radio	3	2017-10-24 16:20:46.927129+00	2017-10-24 16:20:46.927129+00
+6	NO	radio	3	2017-10-24 16:20:46.937062+00	2017-10-24 16:20:46.937062+00
+7	YES	button	4	2017-10-24 16:20:46.940531+00	2017-10-24 16:20:46.940531+00
+8	NO	button	4	2017-10-24 16:20:47.054097+00	2017-10-24 16:20:47.054097+00
+9	YES	button	5	2017-10-24 16:23:27.454622+00	2017-10-24 16:23:27.454622+00
+10	NO	button	5	2017-10-24 16:23:28.008505+00	2017-10-24 16:23:28.008505+00
 \.
 
 
@@ -187,7 +238,7 @@ COPY "Options" (id, title, type, "questionId", "createdAt", "updatedAt") FROM st
 -- Name: Options_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"Options_id_seq"', 2, true);
+SELECT pg_catalog.setval('"Options_id_seq"', 10, true);
 
 
 --
@@ -210,8 +261,11 @@ SELECT pg_catalog.setval('"Questionnaires_id_seq"', 1, true);
 -- Data for Name: Questions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY "Questions" (id, title, "questionnaireId", "createdAt", "updatedAt") FROM stdin;
-1	Do you like classes in Fall ?	1	2017-10-23 07:05:23.209136+00	2017-10-23 07:05:23.209136+00
+COPY "Questions" (id, title, "questionnaireId", "createdAt", "updatedAt", "correctOption") FROM stdin;
+1	Do you like classes in Fall ?	1	2017-10-23 07:05:23.209136+00	2017-10-23 07:05:23.209136+00	\N
+3	Q2	1	2017-10-24 16:16:57.16386+00	2017-10-24 16:16:57.16386+00	\N
+4	Q3	1	2017-10-24 16:17:53.000394+00	2017-10-24 16:17:53.000394+00	\N
+5	Q4	1	2017-10-24 16:18:00.312162+00	2017-10-24 16:18:00.312162+00	\N
 \.
 
 
@@ -219,7 +273,32 @@ COPY "Questions" (id, title, "questionnaireId", "createdAt", "updatedAt") FROM s
 -- Name: Questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"Questions_id_seq"', 1, true);
+SELECT pg_catalog.setval('"Questions_id_seq"', 5, true);
+
+
+--
+-- Data for Name: Responses; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Responses" (id, "questionId", "optionId", "userId", "createdAt", "updatedAt") FROM stdin;
+3	1	2	uniquestring	2017-10-24 15:38:27.081+00	2017-10-24 15:38:27.081+00
+4	1	1	uniquestring	2017-10-24 15:38:31.307+00	2017-10-24 15:38:31.307+00
+5	1	1	b5b8df7b-0062-bab7-80c8-60cc316b3245	2017-10-24 15:41:01.979+00	2017-10-24 15:41:01.979+00
+6	1	1	7ba89532-0d35-d8b5-6e3c-e987cc7417d3	2017-10-24 15:41:14.304+00	2017-10-24 15:41:14.304+00
+7	1	1	8e9a9b06-0c48-dab7-8232-3c1c502a452b	2017-10-24 15:57:59.792+00	2017-10-24 15:57:59.792+00
+1	1	1	uniquestring	2017-10-24 15:38:17.109+00	2017-10-24 15:58:29.567+00
+8	1	1	test	2017-10-24 15:59:30.543+00	2017-10-24 16:36:23.109+00
+9	3	5	test	2017-10-24 16:36:25.373+00	2017-10-24 16:36:25.373+00
+10	4	7	test	2017-10-24 16:36:27.513+00	2017-10-24 16:36:27.513+00
+11	5	9	test	2017-10-24 16:36:33.374+00	2017-10-24 16:36:33.374+00
+\.
+
+
+--
+-- Name: Responses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Responses_id_seq"', 11, true);
 
 
 --
@@ -230,6 +309,9 @@ COPY "SequelizeMeta" (name) FROM stdin;
 20171023063449-create-questionnaire.js
 20171023063536-create-question.js
 20171023063616-create-option.js
+20171024063402-create-response.js
+20171024063949-create-response.js
+20171024065414-add-correct-option-to-question.js
 \.
 
 
@@ -258,6 +340,14 @@ ALTER TABLE ONLY "Questions"
 
 
 --
+-- Name: Responses_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Responses"
+    ADD CONSTRAINT "Responses_pkey" PRIMARY KEY (id);
+
+
+--
 -- Name: SequelizeMeta_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -274,11 +364,35 @@ ALTER TABLE ONLY "Options"
 
 
 --
+-- Name: Questions_correctOption_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Questions"
+    ADD CONSTRAINT "Questions_correctOption_fkey" FOREIGN KEY ("correctOption") REFERENCES "Options"(id);
+
+
+--
 -- Name: Questions_questionnaireId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY "Questions"
     ADD CONSTRAINT "Questions_questionnaireId_fkey" FOREIGN KEY ("questionnaireId") REFERENCES "Questionnaires"(id);
+
+
+--
+-- Name: Responses_optionId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Responses"
+    ADD CONSTRAINT "Responses_optionId_fkey" FOREIGN KEY ("optionId") REFERENCES "Options"(id);
+
+
+--
+-- Name: Responses_questionId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Responses"
+    ADD CONSTRAINT "Responses_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Questions"(id);
 
 
 --
