@@ -51,7 +51,7 @@ export function submit(req, res) {
 
 export function getQuestionnaireQuestions(req, res) {
   const { questionnaireId } = req.params
-  let dpLevel = 0;
+  let dpLevel = 0
   return Questionnaire.find({
     where: {
       id: questionnaireId

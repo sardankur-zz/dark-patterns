@@ -4,6 +4,7 @@ import passport from 'passport'
 import bodyParser from 'body-parser'
 import path from 'path'
 import flash from 'express-flash'
+import frameguard from 'frameguard'
 import gzip from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
@@ -27,6 +28,11 @@ export default (app) => {
     app.use(gzip())
     app.use(helmet())
   }
+
+  app.use(frameguard({
+    action: 'allow-from',
+    domain: 'http://hi.cs.stonybrook.edu'
+  }))
 
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({
