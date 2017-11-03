@@ -101,6 +101,7 @@ class App extends ReactQueryParams {
                 <Header />                
                 {questionnaireUI}
                 <Footer />
+                <div style={{height:"60px"}}></div>
             </div>
         );
     }
