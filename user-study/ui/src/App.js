@@ -19,19 +19,25 @@ class App extends ReactQueryParams {
         }
     }
 
+    getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
 
     getQuestions() {
         
         if(this.queryParams.questionnaire) {
-            this.state.questionnaireId = this.queryParams.questionnaire
-        }
+            this.state.questionnaireId = this.queryParams.questionnaire;
+        } else {
+            this.state.questionnaireId = this.getRandomInt(2,4);
+        }        
 
         $.ajax({
             url: this.state.qurl.replace(":questionnaireId", this.state.questionnaireId),
             dataType:'json',
             cache: false,
             success: function(data){
-                this.setState({level: data.level, isDp : Math.floor(Math.random() * 2) === 1 ? true : false, questionnaire: data.data}, function(){
+                this.setState({level: data.level, isDp : true, questionnaire: data.data}, function(){
                     console.log(this.state.isDp === true ? "Dark Patterns enabled" : "Dark Patterns disabled");
                 });
             }.bind(this),
