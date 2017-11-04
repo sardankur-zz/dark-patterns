@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       PGDATA: '/var/lib/postgresql/data'
-      POSTGRES_DB: userstudy_production
+      POSTGRES_DB: userstudy
   
   userstudy_app:
     image: rest-api

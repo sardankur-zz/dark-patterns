@@ -24,7 +24,7 @@ module.exports = {
   production: {
     username: process.env.PGUSER || 'postgres',
     password: 'postgres',
-    database: 'userstudy_production',
+    database: 'userstudy',
     host: process.env.PG_HOST || 'userstudy_db',
     port: process.env.PG_PORT || 5432,
     dialect: 'postgres',
