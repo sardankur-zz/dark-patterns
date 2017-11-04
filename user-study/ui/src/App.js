@@ -15,12 +15,20 @@ class App extends ReactQueryParams {
             surl : 'http://34.207.37.153:3001/api/v1/questionnaire/submit',
             questionnaireId : 2,
             questionnaire : undefined,
-            uuid: uuid.v4()
+            uuid: uuid.v4(),
+            filled : 0,
+            display : "block"
         }
     }
 
     getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    surveyFilled() {
+        this.refs.footer.hide();
+        this.setState({display : "none"})
+        this.refs.header.change_sub_title('Thank you for your response!');
     }
 
 
@@ -37,9 +45,11 @@ class App extends ReactQueryParams {
             dataType:'json',
             cache: false,
             success: function(data){
-                this.setState({level: data.level, isDp : true, questionnaire: data.data}, function(){
-                    console.log(this.state.isDp === true ? "Dark Patterns enabled" : "Dark Patterns disabled");
-                });
+                var state = this.state;
+                state.level = data.level;
+                state.isDp = true;
+                state.questionnaire = data.data;
+                this.setState(state);
             }.bind(this),
             error: function(xhr, status, err){
                 console.log(err);
@@ -52,7 +62,16 @@ class App extends ReactQueryParams {
         var url = this.state.surl;
         var data = { "uid":uuid, "qid":qid, "ansId":aid, "dp" :isDp }
         $.post(url, data)
-            .done(success)
+            .done(function(data) {
+                var state = this.state;
+                state.filled = this.state.filled + 1;
+                this.setState(state, function() {
+                    success(data);
+                    if(this.state.filled === this.state.questionnaire.length) {
+                        this.surveyFilled();                
+                    }                
+                }.bind(this))                                
+            }.bind(this))
             .fail(failure)
     }
 
@@ -97,16 +116,21 @@ class App extends ReactQueryParams {
 
                 if(index < this.state.questionnaire.length - 1) l = <hr />
 
-                q = <div id={"question_" + item.question.id} key={item.question.id} ><div key={item.question.id} className="row marketing"><div className="col-lg-12">{h}{q}</div></div>{l}</div>
+                q = <div ref="body" style = {{display : this.state.display}} id={"question_" + item.question.id} key={item.question.id} >
+                        <div key={item.question.id} className="row marketing">
+                            <div className="col-lg-12">{h}{q}
+                            </div>
+                        </div>{l}
+                    </div>
                 return(q)
             })
         }
 
         return (
             <div className="container">                
-                <Header />                
+                <Header ref = "header"/>                
                 {questionnaireUI}
-                <Footer />
+                <Footer ref = "footer" />
                 <div style={{height:"60px"}}></div>
             </div>
         );
@@ -122,13 +146,26 @@ class Header extends Component {
             title : 'Questionnaire',
             sub_title : `Responses are completely anonymous and cannot be traced back to the respondent. Additionally,
                          your responses are combined with those of many others and summarized
-                         in a report to further protect your anonymity.`
+                         in a report to further protect your anonymity.`,
+             display : "block"
         }
+    }
+
+    change_sub_title(sub_title) {
+        var state = this.state;
+        state.sub_title = sub_title;
+        this.setState(state);
+    }
+
+    hide() {
+        var state = this.state;
+        state.display = "none";
+        this.setState(state);
     }
 
     render() {
         return (
-            <header className="header">
+            <header style = {{display : this.state.display}} className="header">
                 <h2 className="text-muted">{this.state.title}</h2>
                 <br />
                 <p className="lead text-muted text-justify note-background">{this.state.sub_title}</p>
@@ -144,13 +181,20 @@ class Footer extends Component {
         this.state = {
             note : 'This study is to understand dark patterns in the web. You can find more information about dark patterns on ',
             link : 'http://darkpatterns.org',
-            linkTitle : 'darkpatterns.org'
+            linkTitle : 'darkpatterns.org',
+            display : "block"
         }
+    }
+
+    hide() {
+        var state = this.state;
+        state.display = "none";
+        this.setState(state);
     }
 
     render() {
        return (
-            <footer className="footer">
+            <footer style = {{display : this.state.display}} className="footer">
                 <p className="lead text-muted text-justify note-background">{this.state.note} <a href={this.state.link}>{this.state.linkTitle}</a></p>
             </footer>
         )
@@ -170,6 +214,7 @@ class QuestionHeader extends Component {
     }
 }
 
+/*
 class QuestionCount extends Component {
     render() {
         return (            
@@ -179,6 +224,7 @@ class QuestionCount extends Component {
         )
     }
 }
+*/
 
 
 class ButtonQuestion0 extends Component {
@@ -207,7 +253,7 @@ class ButtonQuestion0 extends Component {
     }
 
     getSpace(index, length) {
-        if(index == length - 1) {
+        if(index === length - 1) {
             return <span className="float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         }        
         return undefined
